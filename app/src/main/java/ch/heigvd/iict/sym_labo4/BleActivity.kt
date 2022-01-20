@@ -159,7 +159,7 @@ class BleActivity : BaseTemplateActivity() {
                 .setServiceUuid(ParcelUuid.fromString("3c0a1000-281d-4b48-b2a7-f15579a1c38f"))
                 .build()
 
-            val filters = MutableList<ScanFilter>(1) { scanFilter }
+            val filters = MutableList(1) { scanFilter }
 
             //reset display
             scanResultsAdapter.clear()
