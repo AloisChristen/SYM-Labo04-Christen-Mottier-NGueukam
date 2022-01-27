@@ -16,8 +16,10 @@ import no.nordicsemi.android.ble.BleManager
 import no.nordicsemi.android.ble.data.Data
 import no.nordicsemi.android.ble.observer.ConnectionObserver
 import java.math.BigInteger
+import java.time.Instant
 import java.time.Instant.now
 import java.util.*
+import java.time.format.DateTimeFormatter as DateTimeFormatter1
 
 /**
  * Project: Labo4
@@ -33,7 +35,7 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
     //live data - observer
     val isConnected = MutableLiveData(false)
     var temperature = MutableLiveData(0)
-    var currentTime = MutableLiveData(0)
+    var currentTime = MutableLiveData("")
     var integer = MutableLiveData(0)
     var btnClicked = MutableLiveData(0)
 
@@ -174,12 +176,15 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
                             caractéristiques, on en profitera aussi pour mettre en place les callbacks correspondants.
                          */
                         ble.setNotificationCallback(buttonClickChar).with {_, data ->
-                            btnClicked.value = data.getIntValue(Data.FORMAT_SINT16, 255)
+                            println("Notif from button click, value : ${data.getIntValue(Data.FORMAT_UINT8, 0)}")
+                            btnClicked.value = data.getIntValue(Data.FORMAT_UINT8, 0)
                         }
                         ble.enableNotifications(buttonClickChar).enqueue()
 
                         ble.setNotificationCallback(currentTimeChar).with {_, data ->
-                            currentTime.value = data.getIntValue(Data.FORMAT_UINT8,255)
+                            println("Notif from current Time, value : ${data.value}")
+
+                            currentTime.value = data.getByte(255).toString()
                         }
                         ble.enableNotifications(currentTimeChar).enqueue()
                     }
@@ -219,6 +224,7 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
 
     companion object {
         private val TAG = BleOperationsViewModel::class.java.simpleName
+        private val Calendar = java.util.Calendar::class
     }
 
     init {
