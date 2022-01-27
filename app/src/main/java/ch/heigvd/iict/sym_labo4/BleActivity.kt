@@ -109,6 +109,10 @@ class BleActivity : BaseTemplateActivity() {
 //            bleViewModel.writeTime(Date().toInstant())
         }
 
+        clickDisplay.setOnClickListener {
+            bleViewModel.writeInteger( integerInput.text.toString().toBigInteger())
+        }
+
         //ble events
         bleViewModel.isConnected.observe(this) { updateGui() }
         bleViewModel.temperature.observe(this) { updateGui() }
