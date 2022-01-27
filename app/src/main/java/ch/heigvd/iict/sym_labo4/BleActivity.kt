@@ -19,6 +19,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import java.util.*
 
 /**
  * Project: Labo4
@@ -44,7 +45,7 @@ class BleActivity : BaseTemplateActivity() {
     private lateinit var temperatureDisplay: TextView
     private lateinit var integerInput: EditText
     private lateinit var integerBtn: Button
-    private lateinit var timeDisplay: TextView
+    private lateinit var timeDisplay: TextClock
     private lateinit var timeSetBtn: Button
     private lateinit var clickDisplay: TextView
 
@@ -98,6 +99,14 @@ class BleActivity : BaseTemplateActivity() {
                 //we connect
                 bleViewModel.connect(scanResultsAdapter.getItem(position).device)
             }
+        }
+
+        temperatureBtn.setOnClickListener {
+            bleViewModel.readTemperature()
+        }
+
+        timeSetBtn.setOnClickListener{
+//            bleViewModel.writeTime(Date().toInstant())
         }
 
         //ble events
@@ -154,7 +163,7 @@ class BleActivity : BaseTemplateActivity() {
             }
 
             temperatureDisplay.text = bleViewModel.temperature.value.toString()
-            timeDisplay.text = bleViewModel.currentTime.value.toString()
+//            timeDisplay.format24Hour = bleViewModel.currentTime.value
             clickDisplay.text = bleViewModel.btnClicked.value.toString()
 
         } else {
