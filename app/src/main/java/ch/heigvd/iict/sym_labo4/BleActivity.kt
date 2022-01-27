@@ -72,7 +72,7 @@ class BleActivity : BaseTemplateActivity() {
         scanPanel = findViewById(R.id.ble_scan)
         scanResults = findViewById(R.id.ble_scanresults)
         emptyScanResults = findViewById(R.id.ble_scanresults_empty)
-        temperatureBtn = findViewById(R.id.ble_temperature_txt)
+        temperatureBtn = findViewById(R.id.ble_temperature_btn)
         temperatureDisplay = findViewById(R.id.ble_temperature_txt)
         integerBtn = findViewById(R.id.ble_integer_btn)
         integerInput = findViewById(R.id.ble_integer_txt)
@@ -187,13 +187,7 @@ class BleActivity : BaseTemplateActivity() {
 
             //reset display
             scanResultsAdapter.clear()
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.BLUETOOTH_SCAN
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                return
-            }
+
             bluetoothScanner.startScan(filters, builderScanSettings.build(), leScanCallback)
             Log.d(TAG, "Start scanning...")
             isScanning = true

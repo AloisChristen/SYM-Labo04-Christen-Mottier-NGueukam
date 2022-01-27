@@ -21,87 +21,94 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Temperature"></TextView>
+                android:text="Temperature" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_margin="15dp"
-                    android:id="@+id/ble_temperature_txt"></TextView>
+                    android:id="@+id/ble_temperature_txt" />
+
                 <Button
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_margin="15dp"
                     android:text="Temperature"
-                    android:id="@+id/ble_tempeature_btn"></Button>
+                    android:id="@+id/ble_temperature_btn" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Time"></TextView>
+                android:text="Time" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <EditText
                     android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_margin="15dp"
-                    android:id="@+id/ble_integer_txt"></EditText>
+                    android:id="@+id/ble_integer_txt" />
+
                 <Button
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_margin="15dp"
                     android:text="Send Integer"
-                    android:id="@+id/ble_integer_btn"></Button>
+                    android:id="@+id/ble_integer_btn" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Integer graph"></TextView>
+                android:text="Integer graph" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_margin="15dp"
-                    android:id="@+id/ble_time_text"></TextView>
+                    android:id="@+id/ble_time_text" />
+
                 <Button
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_margin="15dp"
                     android:text="Send Integer"
-                    android:id="@+id/ble_time_btn"></Button>
+                    android:id="@+id/ble_time_btn" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Click Counter"></TextView>
+                android:text="Click Counter" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_marginVertical="15dp"
                     android:layout_marginHorizontal="100dp"
-                    android:id="@+id/ble_click_text"></TextView>
+                    android:id="@+id/ble_click_text" />
             </LinearLayout>
 
 
