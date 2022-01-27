@@ -4,6 +4,8 @@ import android.app.Application
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_SINT16
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
 import android.bluetooth.BluetoothGattService
 import android.content.Context
 import android.util.Log
@@ -11,7 +13,10 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import no.nordicsemi.android.ble.BleManager
+import no.nordicsemi.android.ble.data.Data
 import no.nordicsemi.android.ble.observer.ConnectionObserver
+import java.math.BigInteger
+import java.time.Instant.now
 import java.util.*
 
 /**
@@ -27,6 +32,10 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
 
     //live data - observer
     val isConnected = MutableLiveData(false)
+    var temperature = MutableLiveData(0)
+    var currentTime = MutableLiveData(0)
+    var integer = MutableLiveData(0)
+    var btnClicked = MutableLiveData(0)
 
     //Services and Characteristics of the SYM Pixl
     private var timeService: BluetoothGattService? = null
@@ -68,6 +77,20 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
             return false
         else
             return ble.readTemperature()
+    }
+
+    fun writeInteger(value: BigInteger): Boolean {
+        if (!isConnected.value!! || integerChar == null)
+            return false
+        else
+            return ble.writeInteger(value)
+    }
+
+    fun writeTime(value: BigInteger): Boolean {
+        if (!isConnected.value!! || currentTimeChar == null)
+            return false
+        else
+            return ble.writeInteger(value)
     }
 
     private val bleConnectionObserver: ConnectionObserver = object : ConnectionObserver {
@@ -151,9 +174,14 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
                             caractéristiques, on en profitera aussi pour mettre en place les callbacks correspondants.
                          */
                         ble.setNotificationCallback(buttonClickChar).with {_, data ->
-                            Log.println(Log.DEBUG, null, "Integer changed to $data")
+                            btnClicked.value = data.getIntValue(Data.FORMAT_SINT16, 255)
                         }
                         ble.enableNotifications(buttonClickChar).enqueue()
+
+                        ble.setNotificationCallback(currentTimeChar).with {_, data ->
+                            currentTime.value = data.getIntValue(Data.FORMAT_UINT8,255)
+                        }
+                        ble.enableNotifications(currentTimeChar).enqueue()
                     }
 
                     override fun onServicesInvalidated() {
@@ -171,13 +199,21 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
         }
 
         fun readTemperature(): Boolean {
-            /*  TODO
-                on peut effectuer ici la lecture de la caractéristique température
-                la valeur récupérée sera envoyée à l'activité en utilisant le mécanisme
-                des MutableLiveData
-                On placera des méthodes similaires pour les autres opérations
-            */
-            return false //FIXME
+            ble.readCharacteristic(temperatureChar).with {_, data ->
+                temperature.value = (data.getIntValue(Data.FORMAT_UINT16, 255)?.div(10))
+            }.enqueue()
+
+            return true
+        }
+
+        fun writeInteger(value: BigInteger): Boolean {
+            ble.writeCharacteristic(integerChar, Data(value.toByteArray()))
+            return true
+        }
+
+        fun writeTime(value: BigInteger): Boolean {
+            ble.writeCharacteristic(currentTimeChar, Data(value.toByteArray()))
+            return true
         }
     }
 

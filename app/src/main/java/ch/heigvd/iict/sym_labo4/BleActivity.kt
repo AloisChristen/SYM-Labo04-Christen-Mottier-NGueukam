@@ -1,5 +1,6 @@
 package ch.heigvd.iict.sym_labo4
 
+import android.Manifest
 import ch.heigvd.iict.sym_labo4.abstractactivies.BaseTemplateActivity
 import android.bluetooth.BluetoothAdapter
 import ch.heigvd.iict.sym_labo4.viewmodels.BleOperationsViewModel
@@ -7,6 +8,7 @@ import ch.heigvd.iict.sym_labo4.adapters.ResultsAdapter
 import android.os.Bundle
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.*
+import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModelProvider
 import android.os.Handler
 import android.os.Looper
@@ -16,6 +18,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.core.app.ActivityCompat
 
 /**
  * Project: Labo4
@@ -82,7 +85,11 @@ class BleActivity : BaseTemplateActivity() {
         }
 
         //ble events
-        bleViewModel.isConnected.observe(this, { updateGui() })
+        bleViewModel.isConnected.observe(this) { updateGui() }
+        bleViewModel.temperature.observe(this) { updateGui() }
+        bleViewModel.currentTime.observe(this) { updateGui() }
+        bleViewModel.btnClicked.observe(this) { updateGui() }
+        bleViewModel.integer.observe(this) { updateGui() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -163,6 +170,13 @@ class BleActivity : BaseTemplateActivity() {
 
             //reset display
             scanResultsAdapter.clear()
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_SCAN
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
             bluetoothScanner.startScan(filters, builderScanSettings.build(), leScanCallback)
             Log.d(TAG, "Start scanning...")
             isScanning = true
