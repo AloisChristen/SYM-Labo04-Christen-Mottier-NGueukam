@@ -39,6 +39,15 @@ class BleActivity : BaseTemplateActivity() {
     private lateinit var scanResults: ListView
     private lateinit var emptyScanResults: TextView
 
+    // gui Ble
+    private lateinit var temperatureBtn: Button
+    private lateinit var temperatureDisplay: TextView
+    private lateinit var integerInput: EditText
+    private lateinit var integerBtn: Button
+    private lateinit var timeDisplay: TextView
+    private lateinit var timeSetBtn: Button
+    private lateinit var clickDisplay: TextView
+
     //menu elements
     private var scanMenuBtn: MenuItem? = null
     private var disconnectMenuBtn: MenuItem? = null
@@ -63,6 +72,13 @@ class BleActivity : BaseTemplateActivity() {
         scanPanel = findViewById(R.id.ble_scan)
         scanResults = findViewById(R.id.ble_scanresults)
         emptyScanResults = findViewById(R.id.ble_scanresults_empty)
+        temperatureBtn = findViewById(R.id.ble_temperature_txt)
+        temperatureDisplay = findViewById(R.id.ble_temperature_txt)
+        integerBtn = findViewById(R.id.ble_integer_btn)
+        integerInput = findViewById(R.id.ble_integer_txt)
+        timeSetBtn = findViewById(R.id.ble_time_btn)
+        timeDisplay = findViewById(R.id.ble_time_text)
+        clickDisplay = findViewById(R.id.ble_click_text)
 
         //manage scanned item
         scanResultsAdapter = ResultsAdapter(this)
@@ -136,6 +152,7 @@ class BleActivity : BaseTemplateActivity() {
                 scanMenuBtn!!.isVisible = false
                 disconnectMenuBtn!!.isVisible = true
             }
+
         } else {
             operationPanel.visibility = View.GONE
             scanPanel.visibility = View.VISIBLE
