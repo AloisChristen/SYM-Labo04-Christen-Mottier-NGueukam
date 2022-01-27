@@ -17,12 +17,13 @@
 
     <string name="ble_sendvalue_title">Envoi de valeur</string>
     <string name="ble_sendvalue_send">Send</string>
-    <string name="send_integer">Send Integer</string>
+    <string name="send">Send</string>
     <string name="click_counter">Click Counter</string>
     <string name="integer_graph">Integer graph</string>
     <string name="send_integer">Send Integer</string>
     <string name="time">Time</string>
     <string name="reload">Reload</string>
     <string name="temperature">Temperature</string>
+    <string name="set_time">Set Time</string>
 
 </resources>
