@@ -153,6 +153,10 @@ class BleActivity : BaseTemplateActivity() {
                 disconnectMenuBtn!!.isVisible = true
             }
 
+            temperatureDisplay.text = bleViewModel.temperature.value.toString()
+            timeDisplay.text = bleViewModel.currentTime.value.toString()
+            clickDisplay.text = bleViewModel.btnClicked.value.toString()
+
         } else {
             operationPanel.visibility = View.GONE
             scanPanel.visibility = View.VISIBLE
