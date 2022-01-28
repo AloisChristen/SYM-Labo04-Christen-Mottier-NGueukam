@@ -82,17 +82,17 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun writeInteger(value: BigInteger): Boolean {
-        if (!isConnected.value!! || integerChar == null)
-            return false
+        return if (!isConnected.value!! || integerChar == null)
+            false
         else
-            return ble.writeInteger(value)
+            ble.writeInteger(value)
     }
 
-    fun writeTime(value: BigInteger): Boolean {
-        if (!isConnected.value!! || currentTimeChar == null)
-            return false
+    fun writeTime(value: Calendar): Boolean {
+        return if (!isConnected.value!! || currentTimeChar == null)
+            false
         else
-            return ble.writeInteger(value)
+            ble.writeTime(value)
     }
 
     private val bleConnectionObserver: ConnectionObserver = object : ConnectionObserver {
@@ -176,7 +176,6 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
                             caractéristiques, on en profitera aussi pour mettre en place les callbacks correspondants.
                          */
                         ble.setNotificationCallback(buttonClickChar).with {_, data ->
-                            println("Notif from button click, value : ${data.getIntValue(Data.FORMAT_UINT8, 0)}")
                             btnClicked.value = data.getIntValue(Data.FORMAT_UINT8, 0)
                         }
                         ble.enableNotifications(buttonClickChar).enqueue()
@@ -205,19 +204,20 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
 
         fun readTemperature(): Boolean {
             ble.readCharacteristic(temperatureChar).with {_, data ->
-                temperature.value = (data.getIntValue(Data.FORMAT_UINT16, 255)?.div(10))
+                temperature.value = (data.getIntValue(Data.FORMAT_UINT16, 0)?.div(10))
             }.enqueue()
 
             return true
         }
 
         fun writeInteger(value: BigInteger): Boolean {
-            ble.writeCharacteristic(integerChar, Data(value.toByteArray()))
+            println("Send $value to pixj")
+            ble.writeCharacteristic(integerChar, Data(value.toByteArray()),BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE).enqueue()
             return true
         }
 
-        fun writeTime(value: BigInteger): Boolean {
-            ble.writeCharacteristic(currentTimeChar, Data(value.toByteArray()))
+        fun writeTime(value: Calendar): Boolean {
+            ble.writeCharacteristic(currentTimeChar, , BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE).enqueue()
             return true
         }
     }

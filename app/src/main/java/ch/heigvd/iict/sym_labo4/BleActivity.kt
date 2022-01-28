@@ -109,7 +109,7 @@ class BleActivity : BaseTemplateActivity() {
 //            bleViewModel.writeTime(Date().toInstant())
         }
 
-        clickDisplay.setOnClickListener {
+        integerBtn.setOnClickListener {
             bleViewModel.writeInteger( integerInput.text.toString().toBigInteger())
         }
 
