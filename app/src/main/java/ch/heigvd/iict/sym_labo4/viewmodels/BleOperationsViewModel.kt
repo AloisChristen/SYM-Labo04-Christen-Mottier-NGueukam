@@ -88,7 +88,7 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
             ble.writeInteger(value)
     }
 
-    fun writeTime(value: Calendar): Boolean {
+    fun writeTime(value: String): Boolean {
         return if (!isConnected.value!! || currentTimeChar == null)
             false
         else
@@ -216,8 +216,8 @@ class BleOperationsViewModel(application: Application) : AndroidViewModel(applic
             return true
         }
 
-        fun writeTime(value: Calendar): Boolean {
-            ble.writeCharacteristic(currentTimeChar, , BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE).enqueue()
+        fun writeTime(value: String): Boolean {
+            ble.writeCharacteristic(currentTimeChar, Data(value.toByteArray()), BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE).enqueue()
             return true
         }
     }
